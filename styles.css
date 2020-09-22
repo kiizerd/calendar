@@ -1,8 +1,47 @@
+html {
+    font-size: 2vh;
+}
+
+.focus {
+    background-color: #343a40;
+    border-radius: 2%;
+    font-size: 1.5em;
+    position: fixed;
+    color: white;
+    height: 65vh;
+    width: 70vw;
+    z-index: 1;
+    left: 16vw;
+    top: 2vh;
+
+}
+
+.focus > * {
+    margin: 10px;
+}
+
+.btn {
+    position: fixed;
+    top: .7vh;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
 .arrow {
     border: solid black;
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
+}
+
+#next {
+    right: 10vw;
+}
+
+#previous {
+    left: 10vw;
 }
   
 .right {
@@ -12,19 +51,23 @@
   
 .left {
     transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);\
+    -webkit-transform: rotate(135deg);
 }
   
 #monthAndYear {
     text-align: center;
 }
 
+.today {
+    background-color: rgb(199, 121, 121);
+}
+
 td {
     color: aquamarine;
     text-align: center;
-    
+
 }
 
-.today {
-    background-color: rgb(199, 121, 121);
+td.day:hover {
+    border: 3px solid black;
 }

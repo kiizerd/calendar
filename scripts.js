@@ -1,9 +1,8 @@
 const tabl = document.getElementById("calendar-table");
 const monthYear = document.getElementById("monthAndYear");
+const focusParent = document.getElementById("focus-parent");
 
-const months = ["January", "February", "March", "April", "May", "June",
-     "July", "August", "September", "October", "November", "December"];
-
+const months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];    
 const days = [];
 
 let today = new Date();
@@ -18,6 +17,8 @@ const monthObj = {
     days: {
     },
 }
+
+let focused = {};
 
 
 next = () => {
@@ -41,6 +42,29 @@ jump = () => {
 }
 
 
+makeFocus = (e) => {
+    const cell = e.target;
+    const newFocus = document.createElement('div');
+    const focusHead = document.createElement('div');
+
+    let headText = cell.textContent + " " + cell.month;
+    focusHead.textContent = headText;
+    newFocus.appendChild(focusHead);
+    newFocus.classList.add('focus');
+    focusParent.appendChild(newFocus);
+    
+
+    focused = {
+        headText: focusHead.textContent,
+        day: cell.textContent,
+        month: cell.month,
+        element: newFocus
+    }
+
+
+}
+
+
 makeCalendar = (month, year) => {
     let firstDay = (new Date(year, month)).getDay();
     let daysInMonth = 32 - new Date(year, month, 32).getDate();
@@ -61,6 +85,7 @@ makeCalendar = (month, year) => {
             if (i === 0 && j < firstDay) {
                 const cell = document.createElement("td");
                 const cellText = document.createTextNode("");
+                cell.classList.add("empty")
                 cell.appendChild(cellText);
                 row.appendChild(cell);    
             } else if (date > daysInMonth) {
@@ -76,17 +101,20 @@ makeCalendar = (month, year) => {
                 cell.appendChild(cellText);
                 days.push(cell);
                 row.appendChild(cell);
+                cell.classList.add("day");
                 monthObj.days[date] = {
                     num: cell.textContent,
                     element: cell,
                 };
+                days[date - 1].month = months[month];
+                cell.addEventListener('click', makeFocus)
                 date++
             }
-            
-        }
 
+        }
         tabl.appendChild(row);
     }
+
 }
 
 
