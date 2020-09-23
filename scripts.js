@@ -1,15 +1,22 @@
 const tabl = document.getElementById("calendar-table");
 const monthYear = document.getElementById("monthAndYear");
 const focusParent = document.getElementById("focus-parent");
+const newFocus = document.createElement('div');
+const focusHead = document.createElement('div');
+const closeBtn = document.createElement('button');
 
 const months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];    
 const days = [];
 
+let sheet = document.styleSheets[1];
+let rules = sheet.cssRules || sheet.rules;
+
+let focused;
 let today = new Date();
 let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
-let selectMonth = document.getElementById("year");
-let selectYear = document.getElementById("month");
+let selectMonth = currentMonth;
+let selectYear = currentYear;
 
 const monthObj = {
     name: months[currentMonth],
@@ -17,8 +24,6 @@ const monthObj = {
     days: {
     },
 }
-
-let focused = {};
 
 
 next = () => {
@@ -42,18 +47,51 @@ jump = () => {
 }
 
 
+removeFocus = (e) => {
+    if (e.target !== focused.element) {
+
+        requestAnimationFrame(() => {
+            newFocus.classList.remove('focus');
+            newFocus.classList.add('focus-start');
+        });
+        
+        focusParent.innerHTML = '';
+        focusParent.removeEventListener('click', removeFocus);
+        rules[14].style["z-index"] = -90;
+    }
+}
+
+let offsetX;
+let offsetY;
+
 makeFocus = (e) => {
     const cell = e.target;
-    const newFocus = document.createElement('div');
-    const focusHead = document.createElement('div');
+    
+    offsetX = ((e.clientX * 100) / 1920);
+    offsetY = ((e.screenY * 100) / 1080);
 
     let headText = cell.textContent + " " + cell.month;
-    focusHead.textContent = headText;
-    newFocus.appendChild(focusHead);
-    newFocus.classList.add('focus');
-    focusParent.appendChild(newFocus);
-    
 
+    newFocus.classList.add('focus-start');
+
+    requestAnimationFrame(() => {
+        newFocus.classList.remove('focus-start');
+        newFocus.classList.add('focus');
+    });
+
+    
+    newFocus.style.id = 'focus';
+    newFocus.appendChild(focusHead);
+    focusHead.innerHTML = `<u>${headText}</u>`;
+
+    rules[16].style.top = offsetY + 'vh';
+    rules[16].style.left = offsetX + 'vw'; //focus start rule
+    
+    rules[14].style["z-index"] = 1; //focus parent rule
+
+    focusParent.appendChild(newFocus);
+    focusParent.id = 'focus-parent';
+    
     focused = {
         headText: focusHead.textContent,
         day: cell.textContent,
@@ -61,7 +99,7 @@ makeFocus = (e) => {
         element: newFocus
     }
 
-
+    focusParent.addEventListener('click', removeFocus);
 }
 
 
@@ -97,7 +135,7 @@ makeCalendar = (month, year) => {
                     && year === today.getFullYear() 
                     && month === today.getMonth()) {
                     cell.classList.add("today")
-                } // color todays date
+                }
                 cell.appendChild(cellText);
                 days.push(cell);
                 row.appendChild(cell);
@@ -119,4 +157,3 @@ makeCalendar = (month, year) => {
 
 
 makeCalendar(currentMonth, currentYear);
-
