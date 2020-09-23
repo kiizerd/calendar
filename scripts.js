@@ -3,7 +3,7 @@ const monthYear = document.getElementById("monthAndYear");
 const focusParent = document.getElementById("focus-parent");
 const newFocus = document.createElement('div');
 const focusHead = document.createElement('div');
-const closeBtn = document.createElement('button');
+const addBtn = document.createElement('div');
 
 const months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];    
 const days = [];
@@ -47,58 +47,70 @@ jump = () => {
 }
 
 
-removeFocus = (e) => {
-    if (e.target !== focused.element) {
+addEvent = (e) => {
 
+}
+
+
+removeFocus = (e) => {
+    let dontClose = Array.from(focused.element.children);
+    dontClose.push(focused.element, focused.headElement.childNodes[0],
+                      focused.headElement.childNodes[0].childNodes[0]);
+    if (!dontClose.includes(e.target)) {
         requestAnimationFrame(() => {
             newFocus.classList.remove('focus');
             newFocus.classList.add('focus-start');
         });
         
-        focusParent.innerHTML = '';
+        setTimeout(() => {
+            focusParent.innerHTML = ''
+            rules[15].style["z-index"] = -90;            
+        }, 1300);
         focusParent.removeEventListener('click', removeFocus);
-        rules[14].style["z-index"] = -90;
+        focused = undefined;
     }
 }
 
-let offsetX;
-let offsetY;
 
 makeFocus = (e) => {
     const cell = e.target;
     
-    offsetX = ((e.clientX * 100) / 1920);
-    offsetY = ((e.screenY * 100) / 1080);
-
     let headText = cell.textContent + " " + cell.month;
+    addBtn.textContent = ' + '
 
+    addBtn.classList.add('add-btn', 'btn');
     newFocus.classList.add('focus-start');
+
+    rules[17].style.top = e.y + 'px';
+    rules[17].style.left = e.x + 'px'; //focus start rule
 
     requestAnimationFrame(() => {
         newFocus.classList.remove('focus-start');
-        newFocus.classList.add('focus');
+        newFocus.classList.add('focus', 'card');
     });
-
     
-    newFocus.style.id = 'focus';
+    newFocus.id = 'focus';
+    newFocus.appendChild(addBtn);
     newFocus.appendChild(focusHead);
-    focusHead.innerHTML = `<u>${headText}</u>`;
-
-    rules[16].style.top = offsetY + 'vh';
-    rules[16].style.left = offsetX + 'vw'; //focus start rule
+    focusHead.innerHTML = `<i><u>${headText}</u></i>`;
     
-    rules[14].style["z-index"] = 1; //focus parent rule
+    rules[15].style["z-index"] = 1; //focus parent rule
 
     focusParent.appendChild(newFocus);
     focusParent.id = 'focus-parent';
     
     focused = {
-        headText: focusHead.textContent,
         day: cell.textContent,
         month: cell.month,
-        element: newFocus
+        headText: focusHead.textContent,
+        headElement: focusHead,
+        element: newFocus,
+        cellElement: cell,
+        events: {
+        }, 
     }
 
+    addBtn.addEventListener('click', addEvent);
     focusParent.addEventListener('click', removeFocus);
 }
 

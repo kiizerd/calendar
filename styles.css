@@ -54,6 +54,10 @@ thead {
     color: black;
 }
 
+.today:hover {
+    border: 5px solid rgb(37, 34, 34);
+}
+
 td {
     color: rgb(131, 210, 255);
     text-align: right;
@@ -62,7 +66,7 @@ td {
 }
 
 td.day:hover {
-    border: 3px solid rgb(53, 49, 49);
+    border: 3px solid rgb(34, 48, 61);
     box-shadow: .4vw .4vw #1c2c3d;
 }
 
@@ -104,4 +108,11 @@ td.day:hover {
 
 .focus > * {
     margin: 10px;
+}
+
+.add-btn {
+    position: absolute;
+    top: 10vh;
+    font-size: 2em;
+    border: .1vw solid rgb(34, 48, 61);
 }
