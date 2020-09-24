@@ -4,6 +4,9 @@ const focusParent = document.getElementById("focus-parent");
 const newFocus = document.createElement('div');
 const focusHead = document.createElement('div');
 const addBtn = document.createElement('div');
+const newEvent = document.createElement('div');
+const eventForm = document.createElement('form');
+const formGroup = document.createElement('div');
 
 const months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];    
 const days = [];
@@ -48,15 +51,41 @@ jump = () => {
 
 
 addEvent = (e) => {
+    newEvent.classList.add('event-start');
 
+    requestAnimationFrame(() => {
+        newEvent.classList.remove('event-start');
+        newEvent.classList.add('event', 'card');
+    });
+
+    formGroup.classList.add('form-group');
+    formGroup.innerHTML = `<label for='event-type'>Event Type: </label>
+                           <input id='event-type'
+                            class='form-control form-control-sm' type='text'
+                           placeholder='Birthday, Reservation, Bill Due...'>
+                           <label for='event-name'>Name: </label>
+                           <input id='event-name'
+                            class='form-control form-control-sm' type='text'>
+                           <label for='event-desc'>Description: </label>
+                           <input id='event-desc'
+                            class='form-control form-control-sm' type='text'>
+                           <button id='form-submit'
+                            class='btn-primary'>Submit</button>`
+    eventForm.appendChild(formGroup);
+    eventForm.id = 'event-form';
+    newEvent.appendChild(eventForm)
+    newEvent.id = 'add-event';
+    focused.element.appendChild(newEvent);
+    focused.newEvent = newEvent;
 }
 
+let dontClose;
 
 removeFocus = (e) => {
-    let dontClose = Array.from(focused.element.children);
-    dontClose.push(focused.element, focused.headElement.childNodes[0],
-                      focused.headElement.childNodes[0].childNodes[0]);
+    dontClose = Array.from(focused.element.querySelectorAll('*'));
+    dontClose.push(focused.element);
     if (!dontClose.includes(e.target)) {
+        console.log(e.target);
         requestAnimationFrame(() => {
             newFocus.classList.remove('focus');
             newFocus.classList.add('focus-start');

@@ -4,7 +4,7 @@ html {
 }
 
 .card {
-    background-color: #496985;
+    background-color: #529ee0;
 }
 
 .btn {
@@ -46,11 +46,12 @@ html {
 }
 
 thead {
-    color: darkturquoise;
+    color: #e06252;
+    text-align: right;
 }
 
 .today {
-    background-color: rgb(70, 133, 117);
+    background-color: #496985;
     color: black;
 }
 
@@ -79,7 +80,7 @@ td.day:hover {
 
 .focus {
     border: .16vw solid rgb(44, 43, 43);
-    box-shadow: .4vw .4vw #1c2c3d;    
+    box-shadow: .15vw .15vw #1c2c3d;    
     background-color: #343a40;
     color: rgb(131, 210, 255);
     border-radius: 1%;
@@ -115,4 +116,47 @@ td.day:hover {
     top: 10vh;
     font-size: 2em;
     border: .1vw solid rgb(34, 48, 61);
+}
+
+.event {
+    border: .16vw solid rgb(44, 43, 43);
+    box-shadow: .15vw .15vw #183350;    
+    background-color: #529ee0;
+    color: rgb(131, 210, 255);
+    border-radius: 1%;
+    transition: 2.0s;
+    font-size: 1.5em;
+    position: fixed;
+    color: white;
+    height: 55vh;
+    width: 65vw;
+    z-index: 12;
+    left: 16vw;
+    top: 2vh;
+}
+
+.event-start {
+    background-color: #2f4458;
+    color: rgb(131, 210, 255);
+    border-radius: 2%;
+    transition: 2.0s;
+    font-size: .2em;
+    position: fixed;
+    color: white;
+    height: 1vh;
+    width: 1vw;
+}
+
+label {
+    font-size: .75em;
+}
+
+.form-group > * {    
+    width: 85%;
+    margin: 2px auto;
+}
+
+#form-submit {
+    margin: 2px auto 2px auto;
+    width: 60%;
 }
